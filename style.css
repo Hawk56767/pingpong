@@ -26,3 +26,8 @@ font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans
     font-weight: 5px;
     font-size: 20px;
 }
+canvas{
+        background-size: cover;
+        background-position: center;
+        padding: 20px;    
+}

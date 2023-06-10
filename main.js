@@ -1,4 +1,6 @@
-
+rightwristX=0;
+rightwristY=0;
+rightscore=0;
 /*created by prashant shukla */
 
 var paddle2 =10,paddle1=10;
@@ -23,11 +25,24 @@ var ball = {
 
 function setup(){
   var canvas =  createCanvas(700,600);
+  canvas.parent('canvas');
+  video=createCapture(VIDEO);
+  video.hide();
+  video.size(700,600);
+  poseNet = ml5.poseNet(video, modelLoaded);
+	poseNet.on('pose', gotPoses);
+}
+function modelLoaded(){
+console.log("Model is Loaded");
 }
 
-
 function draw(){
-
+if (rightscore>0.2) {
+  stroke("red");
+  fill("red");
+  circle(rightwristX, rightwristY, 20);
+}
+image(video, 0, 0, 700, 600);
  background(0); 
 
  fill("black");
@@ -65,8 +80,18 @@ function draw(){
    
    //function move call which in very important
     move();
+    
 }
-
+function gotPoses(results)
+{
+  if(results.length > 0)
+  {
+	console.log(results);
+    rightwristX = results[0].pose.rightWrist.x;
+    rightwristY = results[0].pose.rightWrist.y;
+    rightscore=results[0].pose.keypoints[10].score;
+  }
+}
 
 
 //function reset when ball does notcame in the contact of padde
